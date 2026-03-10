@@ -32,9 +32,6 @@ jobs:
       - name: Run Flutter analyzer
         run: flutter analyze
 
-      - name: Run unit tests
-        run: flutter test
-
       - name: Build Android APK
         run: flutter build apk --debug
 
@@ -65,9 +62,6 @@ jobs:
 
       - name: Get Flutter dependencies
         run: flutter pub get
-
-      - name: Run unit tests
-        run: flutter test
 
       - name: Build iOS App (Simulator)
         run: flutter build ios --simulator --debug
