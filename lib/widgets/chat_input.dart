@@ -44,7 +44,7 @@ class _ChatInputWidgetState extends State<_ChatInputWidget> {
     '/medium',
     '/large',
   ];
-  bool _showCommandSuggestions = false;
+
   String _currentCommandPrefix = '';
   OverlayEntry? _overlayEntry;
 
@@ -81,20 +81,20 @@ class _ChatInputWidgetState extends State<_ChatInputWidget> {
           _hideOverlay();
         }
         setState(() {
-          _showCommandSuggestions = filteredCommands.isNotEmpty;
+
           _currentCommandPrefix = prefix;
         });
       } else {
         // Hide suggestions when command is complete
         _hideOverlay();
         setState(() {
-          _showCommandSuggestions = false;
+
         });
       }
     } else {
       _hideOverlay();
       setState(() {
-        _showCommandSuggestions = false;
+
       });
     }
 
@@ -209,7 +209,7 @@ class _ChatInputWidgetState extends State<_ChatInputWidget> {
     final shouldKeepOpen = command == '/image' || command == '/draw';
 
     setState(() {
-      _showCommandSuggestions = shouldKeepOpen;
+
       if (shouldKeepOpen) {
         _currentCommandPrefix = '/'; // Show all commands again
       }
