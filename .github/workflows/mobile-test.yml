@@ -1,0 +1,73 @@
+name: Mobile Build and Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build_android:
+    name: Build & Test Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Run Flutter analyzer
+        run: flutter analyze
+
+      - name: Run unit tests
+        run: flutter test
+
+      - name: Build Android APK
+        run: flutter build apk --debug
+
+      # NOTE: To run actual integration tests and take screenshots on a virtual
+      # Android device (API 35/36 for Android 15/16), you can uncomment and adapt the following step.
+      #
+      # - name: Run Android UI Tests
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #     api-level: 35
+      #     target: google_apis
+      #     arch: x86_64
+      #     profile: pixel_6
+      #     script: flutter test integration_test
+
+  build_ios:
+    name: Build & Test iOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Run unit tests
+        run: flutter test
+
+      - name: Build iOS App (Simulator)
+        run: flutter build ios --simulator --debug
